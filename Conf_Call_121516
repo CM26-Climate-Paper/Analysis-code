@@ -1,0 +1,30 @@
+Bullets From Analysis Code Conference Call:
+
+1. Established a few monthly metrics to to be calculated directly from species rasters
+-north south centroid
+-east west centroid 
+-Area 
+-Annual percent overlap in habitat for each species (Heather will check with postdoc about a good way to do this) 
+-Habitat fragmentation (edge to area ratio)
+
+2. Established that the goal will be to summarize metrics across months and years based on trends in metrics. Then will ordinate species based on the means and standard deviation of etric trend values across 80 years. 
+
+3. Goal Figures:
+       1. Study area figure
+       2. Methods diagram figure
+       3. Metrics trends for ~5 representative species of conservation / commercial interest, (somehow include a few species maps somehow to show that the underlying data are maps and not just survey data). 
+       4. Ordination plots 
+
+4.  Needs:
+- To determine a good cutoff for PA---potential solution from AUC output, but should also do a bit of reading. 
+- Code to calculate each metric through time
+- Methods for trend analysis 
+-Decide on PCA vs. Cluster analysis
+
+6. Timeline:
+- This coming week will research an appropriate cutoff
+- If determine a good cutoff, Jenn can work on centroid calculations this weekend. 
+- Heather will make headway on area calculations before trip home.
+- Will share data-frames ASAP. Goal: Jenn can make headway on any remaining metrics and initial trend analyses over Christmas break. 
+-  Goal: Conduct ordination in early January. 
+- Goal: Start writing by end of January. 
