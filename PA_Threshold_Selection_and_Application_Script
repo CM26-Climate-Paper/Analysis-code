@@ -68,7 +68,7 @@ for (spp in species){
   fit<-gam(p_a ~s(Depth,bs="ts")+s(Rugosity,bs="ts")+s(st,bs="ts")+s(SS,bs="ts")+s(bs,bs="ts")+s(bt,bs="ts")+s(sh,bs="ts"),family=binomial("logit"),data=dat,method="GCV.Cp")
   predict<-predict.gam(fit,type=c("response"),se.fit=TRUE)
   predict_out<-cbind(dat,predict)
-  ROC<-roc(predict_out$p_a,predict_out$) #calculated ROC curve based on the original and the predicted values)
+  ROC<-roc(predict_out$p_a,predict_out$fit) #calculated ROC curve based on the original and the predicted values)
   Thresh<-coords(ROC, "best", ret = "threshold",best.method="youden") ## threshold selection that maximizes sensitivity and specificity. 
   Thresh_Coords<-cbind(Spp_name,Thresh)
   Thresh_output<-rbind(Thresh_output,Thresh_Coords)
