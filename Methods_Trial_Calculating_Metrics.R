@@ -57,7 +57,41 @@ library(sp)
 
 ##########################################################################################################
 ###########################################################################################################
-#4. Calculating a number of landscape metrics from the SDM Toolbox.
+#4. Calculating centroid values for rasters 
+#bringing in rasters and then calculating centroid values through a for loop
+
+setwd(PA_raster_dir)
+folders<-list.files();folders
+Centroids_Stats<-as.data.frame(NULL)
+for (folder in folders) {
+  print(paste("Starting PA process for ",folder,sep=""))
+  setwd(paste(PA_raster_dir,"/",folder,sep=""))
+  raster_data<-list.files(pattern=".tif")
+  rs_stk_PA<-stack(raster_data)
+  print(paste("Starting probability rasters process for ",folder,sep=""))
+  setwd(paste(All_prob_dir,"/",folder,sep=""))
+  raster_data_prob<-list.files(pattern=".tif")
+  rs_stk_prob<-stack(raster_data_prob)
+  for (i in 1:nlayers(rs_stk_PA)) {
+    tryCatch({
+      print(paste("Starting loop of ",names(rs_stk_PA[[i]]),sep=""))
+      layer=rs_stk_PA[[i]]
+      name<-names(rs_stk_PA[[i]])
+      layer_prob<-mask(rs_stk_prob[[i]],layer)
+      cent<-as.data.frame(COGravity(x=layer_prob))
+      cent_coords<-cbind(cent[1,],cent[3,]);colnames(cent_coords)<-c("Longitude","Latitude")
+      cent_named_coords<-as.data.frame(cbind(name,cent_coords))
+      print(paste("Compiling output stats for ", names(rs_stk_PA[[i]]),names(rs_stk_prob[[i]]),sep=" "))
+      Centroid_Stats<-rbind(Centroid_Stats,cent_named_coords)},error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+  }
+}
+
+setwd(shared_git)
+write.csv(Centroids_Stats,file="Centrod_Stats_CM26_StudyMetrics.csv")
+?COG
+
+###########################################################################################################
+# 5. Calculating a number of landscape metrics from the SDM Toolbox.
 
 # Outputs derived from the ClassStat function form SDM Toolbox
 # [1] "X"                       "name"                    "class"                   "n.patches"
@@ -116,47 +150,7 @@ for (folder in folders) {
 
 
 ###########################################################################################################
-# 5. Calculating centroid values for rasters 
-#bringing in rasters and then calculating centroid values through a for loop
-
-setwd(PA_raster_dir)
-folders<-list.files();folders
-Centroids_Stats<-as.data.frame(NULL)
-for (folder in folders) {
-  print(paste("Starting PA process for ",folder,sep=""))
-  setwd(paste(PA_raster_dir,"/",folder,sep=""))
-  raster_data<-list.files(pattern=".tif")
-  rs_stk_PA<-stack(raster_data)
-  print(paste("Starting probability rasters process for ",folder,sep=""))
-  setwd(paste(All_prob_dir,"/",folder,sep=""))
-  raster_data_prob<-list.files(pattern=".tif")
-  rs_stk_prob<-stack(raster_data_prob)
-  for (i in 1:nlayers(rs_stk_PA)) {
-    tryCatch({
-      print(paste("Starting loop of ",names(rs_stk_PA[[i]]),sep=""))
-      layer=rs_stk_PA[[i]]
-      name<-names(rs_stk_PA[[i]])
-      layer_prob<-mask(rs_stk_prob[[i]],layer)
-      cent<-as.data.frame(COGravity(x=layer_prob))
-      cent_coords<-cbind(cent[1,],cent[3,]);colnames(cent_coords)<-c("Longitude","Latitude")
-      cent_named_coords<-as.data.frame(cbind(name,cent_coords))
-      print(paste("Compiling output stats for ", names(rs_stk_PA[[i]]),names(rs_stk_prob[[i]]),sep=" "))
-      Centroid_Stats<-rbind(Centroid_Stats,cent_named_coords)},error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
-  }
-}
-
-setwd(shared_git)
-write.csv(Centroids_Stats,file="Centrod_Stats_CM26_StudyMetrics.csv")
-?COG
-
-rs3.1_COG<-as.matrix(COGravity(rs3.1))
-rs3.2_COG<-as.matrix(COGravity(rs3.2))
-###########################################################################################################
-# 6. Calculating Monthly Degree of Habitat Fragmentation (edge to area ratio)
-
-
-###########################################################################################################
-# 7. Calculating Annual Overlap of Home Range and/or overlap between months accross years?
+# 6. Calculating Annual Overlap of Home Range and/or overlap between months accross years?
 
 
 
