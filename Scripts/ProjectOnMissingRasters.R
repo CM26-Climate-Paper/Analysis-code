@@ -32,7 +32,7 @@ for(raster in final_list){
   a=unlist(strsplit(raster,"/"))
   species_name=a[6]
   print(species_name)
-  modelRDS=paste(spp_model_dir,species_name,".rds",sep="") ## get rds model object for the missing species
+  modelRDS=readRDS(paste(spp_model_dir,species_name,".rds",sep="")) ## get rds model object for the missing species
   date1=gsub(".tif","",a[7])
   date=gsub(paste(species_name,"_",sep=""),"",date)
   print(date)
