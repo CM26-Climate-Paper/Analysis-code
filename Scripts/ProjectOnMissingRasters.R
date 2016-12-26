@@ -34,7 +34,7 @@ for(raster in final_list){
   print(species_name)
   modelRDS=readRDS(paste(spp_model_dir,species_name,".rds",sep="")) ## get rds model object for the missing species
   date1=gsub(".tif","",a[7])
-  date=gsub(paste(species_name,"_",sep=""),"",date)
+  date=gsub(paste(species_name,"_",sep=""),"",date1)
   print(date)
   layers_dir=paste(raster_dir,date,sep="")
   Depth<-raster(paste(layers_dir,"/Depth.tif",sep=""))
