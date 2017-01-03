@@ -136,7 +136,6 @@ Thresh_output<-read.csv("CV_AUC_Thresh_out_FINAL.csv")
 
 setwd(spp_rasters)
 rs_folders<-list.files()
-folder="bp1006"
 for (folder in rs_folders){
   print(paste("Starting ",folder,sep=""))
   setwd(paste(spp_rasters,"/",folder,sep=""))
