@@ -122,7 +122,7 @@ for (folder in folders) {
       stat<-as.data.frame(ClassStat(layer,cellsize = 8904, bkgd = NA, latlon = TRUE))
       stat_P<-as.data.frame(cbind(name,stat))
       print(paste("Compiling output stats for ", names(rs_stk[[i]]),sep=""))
-      Class_Stats<-rbind(Class_Stats,stat_P)},error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+      Class_Stats<-rbind(Class_Stats,stat_P[2,])},error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
   }
 }
 # setwd(shared_git)
