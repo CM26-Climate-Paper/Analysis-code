@@ -64,65 +64,67 @@ setwd(spp_model_dir)
 temp = list.files(pattern=".rds")  # fix when ready to run the whole dataset. Added a 0 to keep the numbers low initially.
 for (i in 1:length(temp)) {assign(temp[i], readRDS(temp[i]))}
 
-#####################################################################
-# 5. Finding a threshold (note that I just modified our existing loop script to save time. Although I'm sure now there is a jazzier way to do this) 
-#species levels
-species<-ls(pattern=".rds")  #gather a list of all csvs in the environment space
-#Running k-fold cross-validation
-Compiled_Thresh_CV_Output=as.data.frame(NULL)
-for (spp in species){
-  Spp_name<-file_path_sans_ext(spp)
-  print(paste("Starting ",spp,sep=""))
-  dat<-get(spp) 
-  dat<-dat$model
-  Thresh_CV_Output=as.data.frame(NULL)
-  K_Fold<-1:10  # this can be jacked up as much as we want. It will take longer, but will ultimately smooth out the errors.    print(paste("cross validatin of ",spp," started",sep=""))
-  for (k in K_Fold){
-    print(paste("Starting k ",k," for ",Spp_name,sep=""))
-    Fold_num=k
-    trainIndex<-createDataPartition(dat$p_a,p=.5,list=FALSE)
-    trainData<-dat[trainIndex,c(1:8)]
-    testData<-dat[-trainIndex,c(1:8)]
-    #Fit training model
-    print(paste("Fit training model ",k," for ",Spp_name,sep=""))
-    train_fit<-gam(p_a ~s(Depth,bs="ts")+s(Rugosity,bs="ts")+s(st,bs="ts")+s(SS,bs="ts")+s(bs,bs="ts")+s(bt,bs="ts")+s(sh,bs="ts"),family=binomial("logit"),data=trainData,method="GCV.Cp")
-    train_predict<-predict.gam(train_fit,type=c("response"),se.fit=TRUE)
-    train_output<-cbind(trainData,train_predict)
-    train_ROC<-roc(train_output$p_a,train_output$fit) #calculated ROC curve based on the original and the predicted values)
-    train_AUC<-train_ROC$auc
-    #Fitting testing model and extracting CV stats
-    print(paste("Fit testing model ",k," for ",Spp_name,sep=""))        
-    test_predict<-predict.gam(train_fit,testData,type=c("response"),se.fit=TRUE)
-    test_output<-cbind(testData,test_predict)
-    test_ROC<-roc(test_output$p_a,test_output$fit) #calculated ROC curve based on the original and the predicted values)
-    test_AUC<-test_ROC$auc
-    test_Thresh<-coords(test_ROC, "best", ret = "threshold",best.method="youden") ## threshold selection that maximizes sensitivity and specificity. 
-    Thresh_CV<-cbind(Fold_num,Spp_name,train_AUC,test_AUC,test_Thresh)
-    Thresh_CV_Output<-rbind(Thresh_CV_Output,Thresh_CV)
-    print(paste("Threshold calculation for k=",k," for ",Spp_name," finished",sep=""))
-  }
-Compiled_Thresh_CV_Output<-rbind(Thresh_CV_Output,Compiled_Thresh_CV_Output)
-print(paste("cross validatin of ",Spp_name," finished",sep=""))
-}
-
-setwd(shared_git_data)
-# write.csv(Compiled_Thresh_CV_Output,"CV_AUC_Thresh_out.csv")
-
-
-# Gathering outputs of CV script into a useable data frame
-Compiled_Thresh_CV_Output<-read.csv("CV_AUC_Thresh_out.csv")
-names(Compiled_Thresh_CV_Output)
-summary_data <- ddply(Compiled_Thresh_CV_Output, c("Spp_name"), summarise,
-                      N    = length(Fold_num),
-                      train_AUC_mean = mean(train_AUC),
-                      train_AUC_se = sd(train_AUC)/sqrt(N),
-                      test_AUC_mean = mean(test_AUC),
-                      test_AUC_se = sd(test_AUC)/sqrt(N),
-                      test_Thresh_mean = mean(test_Thresh),
-                      test_Thresh_se = sd(test_Thresh)/sqrt(N))
-head(summary_data)
-write.csv(summary_data,file="CV_AUC_Thresh_out_FINAL.csv")
-
+#This next section is commented out because  J McHenry preveiously ran this section. 
+# The output is saved as in the data folder as: "CV_AUC_Thresh_out_FINAL.csv"
+# #####################################################################
+# # 5. Finding a threshold (note that I just modified our existing loop script to save time. Although I'm sure now there is a jazzier way to do this) 
+# #species levels
+# species<-ls(pattern=".rds")  #gather a list of all csvs in the environment space
+# #Running k-fold cross-validation
+# Compiled_Thresh_CV_Output=as.data.frame(NULL)
+# for (spp in species){
+#   Spp_name<-file_path_sans_ext(spp)
+#   print(paste("Starting ",spp,sep=""))
+#   dat<-get(spp) 
+#   dat<-dat$model
+#   Thresh_CV_Output=as.data.frame(NULL)
+#   K_Fold<-1:10  # this can be jacked up as much as we want. It will take longer, but will ultimately smooth out the errors.    print(paste("cross validatin of ",spp," started",sep=""))
+#   for (k in K_Fold){
+#     print(paste("Starting k ",k," for ",Spp_name,sep=""))
+#     Fold_num=k
+#     trainIndex<-createDataPartition(dat$p_a,p=.5,list=FALSE)
+#     trainData<-dat[trainIndex,c(1:8)]
+#     testData<-dat[-trainIndex,c(1:8)]
+#     #Fit training model
+#     print(paste("Fit training model ",k," for ",Spp_name,sep=""))
+#     train_fit<-gam(p_a ~s(Depth,bs="ts")+s(Rugosity,bs="ts")+s(st,bs="ts")+s(SS,bs="ts")+s(bs,bs="ts")+s(bt,bs="ts")+s(sh,bs="ts"),family=binomial("logit"),data=trainData,method="GCV.Cp")
+#     train_predict<-predict.gam(train_fit,type=c("response"),se.fit=TRUE)
+#     train_output<-cbind(trainData,train_predict)
+#     train_ROC<-roc(train_output$p_a,train_output$fit) #calculated ROC curve based on the original and the predicted values)
+#     train_AUC<-train_ROC$auc
+#     #Fitting testing model and extracting CV stats
+#     print(paste("Fit testing model ",k," for ",Spp_name,sep=""))        
+#     test_predict<-predict.gam(train_fit,testData,type=c("response"),se.fit=TRUE)
+#     test_output<-cbind(testData,test_predict)
+#     test_ROC<-roc(test_output$p_a,test_output$fit) #calculated ROC curve based on the original and the predicted values)
+#     test_AUC<-test_ROC$auc
+#     test_Thresh<-coords(test_ROC, "best", ret = "threshold",best.method="youden") ## threshold selection that maximizes sensitivity and specificity. 
+#     Thresh_CV<-cbind(Fold_num,Spp_name,train_AUC,test_AUC,test_Thresh)
+#     Thresh_CV_Output<-rbind(Thresh_CV_Output,Thresh_CV)
+#     print(paste("Threshold calculation for k=",k," for ",Spp_name," finished",sep=""))
+#   }
+# Compiled_Thresh_CV_Output<-rbind(Thresh_CV_Output,Compiled_Thresh_CV_Output)
+# print(paste("cross validatin of ",Spp_name," finished",sep=""))
+# }
+# 
+# setwd(shared_git_data)
+# # write.csv(Compiled_Thresh_CV_Output,"CV_AUC_Thresh_out.csv")
+# 
+# 
+# # Gathering outputs of CV script into a useable data frame
+# Compiled_Thresh_CV_Output<-read.csv("CV_AUC_Thresh_out.csv")
+# names(Compiled_Thresh_CV_Output)
+# summary_data <- ddply(Compiled_Thresh_CV_Output, c("Spp_name"), summarise,
+#                       N    = length(Fold_num),
+#                       train_AUC_mean = mean(train_AUC),
+#                       train_AUC_se = sd(train_AUC)/sqrt(N),
+#                       test_AUC_mean = mean(test_AUC),
+#                       test_AUC_se = sd(test_AUC)/sqrt(N),
+#                       test_Thresh_mean = mean(test_Thresh),
+#                       test_Thresh_se = sd(test_Thresh)/sqrt(N))
+# head(summary_data)
+# write.csv(summary_data,file="CV_AUC_Thresh_out_FINAL.csv")
+# 
 
 ##################################################################
 # 6. Bringing in rasters, saving them as RDS files, converting to PA based on the identified threshold, and saving them again as RDS files. 
