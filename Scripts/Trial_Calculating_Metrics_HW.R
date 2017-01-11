@@ -61,10 +61,11 @@ prob_raster_dir="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_pap
 out_csv_dir="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/Habitat_Metrics/";dir.create(out_csv_dir)
 
 ## get an empty dataframe to fill in when rasters have no presence
-templateDF=read.csv("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/Habitat_Metrics/bp131_HabitatMetrics.csv")
-template=templateDF[1,]
-template[1,]="NaN"
-templateDF=template[,c(4:41)]
+templateDF=read.csv("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/Habitat_Metrics/templateDF.csv")
+#template=templateDF[1,]
+#template[1,]="NaN"
+templateDF=template[,c(2:39)]
+write.csv(templateDF,paste(out_csv_dir,"templateDF.csv"))
 
 setwd(PA_raster_dir)
 folders<-list.files();folders
@@ -73,7 +74,7 @@ for (folder in folders) {
   rs_stk_PA=readRDS(paste(PA_raster_dir,folder,"/",folder,"_PA.rds",sep=""))
   rs_stk_prob=readRDS(paste(prob_raster_dir,folder,"/",folder,".rds",sep=""))
   Class_Stats<-as.data.frame(NULL)
-  for (i in 1:20) { #for (i in 1:nlayers(rs_stk)) {
+  for (i in 1:nlayers(rs_stk_PA)) {
       print(paste("Starting loop of ",names(rs_stk_PA[[i]]),sep=""))
       pa_layer=rs_stk_PA[[i]]
       
