@@ -63,3 +63,57 @@ trend2=ma(detrend,order=12,centre=T)
 lines(trend2)
 plot(as.ts(trend))
 
+### picking this back up again, based on: http://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/src/timeseries.html
+setwd("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/Habitat_Metrics")
+
+library("TTR")
+
+xx=read.csv("bp1006_HabitatMetrics.csv")
+plot(xx$total.area)
+a=ts(data=xx$total.area,start=c(1,1))
+plot.ts(a)
+
+smoothed=SMA(a,n=60)
+plot.ts(smoothed)
+
+a=ts(data=xx$total.area,start=c(1,1),frequency = 12)
+b=decompose(a)
+adjusted=a-b$seasonal
+plot(adjusted)
+
+eruption.lm = lm(TemporalOrder ~ n.patches, data=xx) 
+summary(eruption.lm)$r.squared 
+slope=coef(eruption.lm)
+as.numeric(slope[2])
+
+#### getting r2 values to use in a grouping analysis
+empty=xx[0,]
+empty=empty[,c(1,5:44)]
+dataframes=list.files()
+for(i in 1:length(dataframes)){
+  csv=read.csv(dataframes[i])
+  trimmed=csv[,c(5:44)]
+  empty[i,1]=as.character(dataframes[i])
+  for(ii in 1:ncol(trimmed)){
+    model=lm(trimmed[[ii]] ~ TemporalOrder,data=trimmed)
+    slope=coef(model)
+    empty[i,ii+1]=as.numeric(slope[2])
+  }
+}
+
+fit=princomp(empty[,c(3,6,9,10,12,27,39,40)],cor=FALSE)
+summary(fit)
+loadings(fit) # pc loadings
+plot(fit,type="lines") # scree plot
+fit$scores # the principal components
+biplot(fit) 
+
+library(FactoMineR)
+result <- PCA(empty[,c(3,6,9,10,12,27,39,40)]) # graphs generated automatically 
+
+library(ggplot2)
+spcluster=kmeans(empty[,c(3,6,9,10,12,27,39,40)],10,nstart = 20.)
+
+d <- dist(as.matrix(empty[,c(3,6,9,10,12,27,39,40)]))   # find distance matrix 
+hc <- hclust(d)                # apply hirarchical clustering 
+plot(hc)  
