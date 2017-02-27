@@ -117,3 +117,54 @@ spcluster=kmeans(empty[,c(3,6,9,10,12,27,39,40)],10,nstart = 20.)
 d <- dist(as.matrix(empty[,c(3,6,9,10,12,27,39,40)]))   # find distance matrix 
 hc <- hclust(d)                # apply hirarchical clustering 
 plot(hc)  
+
+####trend decomposition
+library(stlplus)
+trendseries=stlplus(a,n.p = 12,s.window = "periodic")
+
+library(pdc)
+## first 2 dimensional (later 3D array) "total.area"
+ta=as.data.frame(matrix(vector(), 972, 147))
+#ta[,149]=xx$TemporalOrder
+
+dataframes=list.files()
+dataframes=dataframes[dataframes != "m1068_HabitatMetrics.csv"]
+
+for(i in 1:ncol(ta)){
+  csv=read.csv(dataframes[i])
+  ta[,i]=csv$total.area
+  colnames(ta)[i] <- as.character(dataframes[i])
+}
+
+#ta_complete=ta[complete.cases(ta),]
+#ta_real=ta[,1:(ncol(ta)-1)]
+pdc_test=pdclust(ta)
+
+lables=colnames(ta)
+lables=lapply(lables,function(x)gsub("_HabitatMetrics.csv","",x))
+lables=unlist(lables)
+plot(pdc_test,labels = lables)
+plot(pdc_test,p.values = TRUE,cols=c(rep("red",10),rep("blue",99),rep("chartreuse1",12),rep("black",2),rep("cyan1",4),rep("darkgoldenrod1",17)))
+
+mdsPlot(pdc_test,labels=lables,col="gray")
+pairs(xx)
+
+### build 3d array
+empty3D=array(NA,dim=c(9,972,148))
+dataframes=list.files()
+
+dataframes=dataframes[dataframes != "m1068_HabitatMetrics.csv"]
+
+for(i in 1:ncol(empty3D)){
+  csv=read.csv(dataframes[i])
+  empty3D[1,,i]=csv$n.patches
+  empty3D[2,,i]=csv$total.area
+  empty3D[3,,i]=csv$patch.density
+  empty3D[4,,i]=csv$total.edge
+  empty3D[5,,i]=csv$sd.patch.area
+  empty3D[6,,i]=csv$mean.patch.core.area
+  empty3D[7,,i]=csv$sd.patch.core.area
+  empty3D[8,,i]=csv$patch.cohesion.index
+  empty3D[9,,i]=csv$Centroid_Latitude
+  colnames(as.data.frame(empty3D)[i]) <- as.character(dataframes[i])
+}
