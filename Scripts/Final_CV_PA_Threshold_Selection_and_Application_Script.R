@@ -11,16 +11,15 @@ rm(list=ls())
 # 2. Set the primary working directories
 #You'll want to adjust these based on where your rasters and species data are stored on your computer. 
 
-primary_dir=paste("/Volumes/LACIE_SHARE/PROJECTS/MidAtlantic_GOM_Work_NOAA/Climate_SDM_Paper/Full_Run_PA_GAM_climatologicalpoints");setwd(primary_dir)# swap folder names if necessary
-# primary_dir=paste("/Users/jmchenry/Dropbox/CM26_WorkingOverChristmas/Full_Run_PA_GAM_climatologicalpoints/");setwd(primary_dir)
+primary_dir=paste("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/");setwd(primary_dir)# swap folder names if necessary
 
-# shared_git=paste("/Users/jmchenry/Dropbox/CM26_Climate_Paper_AnalysisCodeNonLACIE/")
-shared_git_data=paste("/Volumes/LACIE_SHARE/PROJECTS/MidAtlantic_GOM_Work_NOAA/Climate_SDM_Paper/CM26_Climate_Paper_Shared/CM26_Climate_Paper_Shared/Data/")
+#shared_git=paste("/Users/jmchenry/Dropbox/CM26_Climate_Paper_AnalysisCodeNonLACIE/")
+shared_git_data=paste("/Volumes/SeaGate/ClimatePaperCM2.6/WorkingNotes/Data")
 
-spp_rasters=paste(primary_dir,"/ALL_Species_Projections/Species_Projections_all/",sep="")
-spp_model_dir=paste(primary_dir,"/species_models/",sep=""); #dir.create(spp_model_dir)
+spp_rasters=paste(primary_dir,"Species_Projections_all/",sep="")
+#spp_model_dir=paste(primary_dir,"/species_models/",sep=""); #dir.create(spp_model_dir)
 
-output_dir=paste(primary_dir,"/ALL_Species_Projections/Species_Projections_stacked/",sep="");dir.create(output_dir)
+output_dir=paste(primary_dir,"Species_Projections_all_PA/",sep="");dir.create(output_dir)
 
 
 ###########################################################################################################
@@ -136,27 +135,31 @@ setwd(shared_git_data)
 Thresh_output<-read.csv("CV_AUC_Thresh_out_FINAL.csv")
 
 
+
 setwd(spp_rasters)
-rs_folders<-list.files()
+rs_folders<-list.files() ##
 for (folder in rs_folders){
-  print(paste("Starting ",folder,sep=""))
-  setwd(paste(spp_rasters,"/",folder,sep=""))
-  raster_data<-list.files(pattern=".tif") 
-  stk<-stack(raster_data)
-  print(paste(folder," Stacked",sep=""))
-  names(stk)<-raster_data
-  saveRDS(stk,paste(folder,".rds",sep=""))
-  cutoff<-subset(Thresh_output,Thresh_output$Spp_name==folder)
-  rc_fun <- function(x) {ifelse(x <=  cutoff$Thresh,NA,ifelse(x >  cutoff$Thresh, 1, NA)) }
-  stk_rc<-calc(stk, fun=rc_fun)
-  print(paste("Cutoff used to reclassify raster for ",folder,sep=""))
-  stk_rc<-stack(stk_rc)
-  spp_output_dir=paste(output_dir,folder,sep="");dir.create(spp_output_dir)
-  setwd(spp_output_dir)
-  saveRDS(stk_rc,paste(folder,"_PA.rds",sep=""))
-  print(paste("Rewriting binary rasters",folder,sep=""))
-  writeRaster(stk_rc,filename=names(stk_rc),bylayer=TRUE,datatype="INT2S",options="INTERLEAVE=BAND",proj=TRUE,overwrite=TRUE)
-  print(paste(folder," finished",sep=""))
+  if(!file.exists(paste(output_dir,folder,sep=""))){ ## classifcation failed, restarting
+    print(paste(folder," hasn't been classified yet",sep=""))
+    print(paste("Starting ",folder,sep=""))
+    setwd(paste(spp_rasters,"/",folder,sep=""))
+    raster_data<-list.files(pattern="*.tif$") ##change to only grab tifs
+    stk<-stack(raster_data)
+    print(paste(folder," Stacked",sep=""))
+    names(stk)<-raster_data
+    saveRDS(stk,paste(folder,".rds",sep=""))
+    cutoff<-subset(Thresh_output,Thresh_output$Spp_name==folder)
+    rc_fun <- function(x) {ifelse(x <=  cutoff$test_Thresh_mean,NA,ifelse(x >  cutoff$test_Thresh_mean, 1, NA)) } ### training/testing threshold??
+    stk_rc<-calc(stk, fun=rc_fun)
+    print(paste("Cutoff used to reclassify raster for ",folder,sep=""))
+    stk_rc<-stack(stk_rc)
+    spp_output_dir=paste(output_dir,folder,sep="");dir.create(spp_output_dir)
+    setwd(spp_output_dir)
+    saveRDS(stk_rc,paste(folder,"_PA.rds",sep=""))
+    print(paste("Rewriting binary rasters ",folder,sep=""))
+    #writeRaster(stk_rc,filename=names(stk_rc),bylayer=TRUE,datatype="INT2S",options="INTERLEAVE=BAND",proj=TRUE,overwrite=TRUE)
+    print(paste(folder," finished",sep=""))
+  }
 }
 
 

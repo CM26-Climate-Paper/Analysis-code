@@ -150,21 +150,105 @@ mdsPlot(pdc_test,labels=lables,col="gray")
 pairs(xx)
 
 ### build 3d array
-empty3D=array(NA,dim=c(9,972,148))
+empty3D=array(NA,dim=c(972,147,9))
 dataframes=list.files()
 
 dataframes=dataframes[dataframes != "m1068_HabitatMetrics.csv"]
 
 for(i in 1:ncol(empty3D)){
   csv=read.csv(dataframes[i])
-  empty3D[1,,i]=csv$n.patches
-  empty3D[2,,i]=csv$total.area
-  empty3D[3,,i]=csv$patch.density
-  empty3D[4,,i]=csv$total.edge
-  empty3D[5,,i]=csv$sd.patch.area
-  empty3D[6,,i]=csv$mean.patch.core.area
-  empty3D[7,,i]=csv$sd.patch.core.area
-  empty3D[8,,i]=csv$patch.cohesion.index
-  empty3D[9,,i]=csv$Centroid_Latitude
-  colnames(as.data.frame(empty3D)[i]) <- as.character(dataframes[i])
+  empty3D[,i,1]=csv$n.patches
+  empty3D[,i,2]=csv$total.area
+  empty3D[,i,3]=csv$patch.density
+  empty3D[,i,4]=csv$total.edge
+  empty3D[,i,5]=csv$sd.patch.area
+  empty3D[,i,6]=csv$mean.patch.core.area
+  empty3D[,i,7]=csv$sd.patch.core.area
+  empty3D[,i,8]=csv$patch.cohesion.index
+  empty3D[,i,9]=csv$Centroid_Latitude
 }
+
+## name the array columns
+colnames(empty3D)<- dataframes
+dimnames(empty3D)[[3]] <- c("n.patches","total.area","patch.density","total.edge","sd.patch.area","mean.patch.core.area","sd.patch.core.area","patch.cohesion.index","Centroid_Latitude")
+
+##cluster the time-series
+pdc_test=pdclust(empty3D)
+lables=dataframes
+lables=lapply(lables,function(x)gsub("_HabitatMetrics.csv","",x))
+lables=unlist(lables)
+plot(pdc_test,labels = lables)
+plot(pdc_test)
+plot(pdc_test,p.values = TRUE,cols=c(rep("red",10),rep("blue",100),rep("chartreuse1",13),rep("black",2),rep("cyan1",4),rep("darkgoldenrod1",18)))
+
+cb=codebook(as.numeric(csv[,1]))
+barplot(cb)
+
+## testing clustering by variable
+## MAKING SOME OUTPUT PLOTS
+dimnames(empty3D)[[3]]
+
+setwd("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/time_series_clusters")
+
+pdc_test=pdclust(empty3D[,,9]) 
+plot(pdc_test,p.values = TRUE,cols=c(rep("red",10),rep("blue",100),rep("chartreuse1",13),rep("black",2),rep("cyan1",4),rep("darkgoldenrod1",18)),
+     main=dimnames(empty3D)[[3]][9])
+plot(pdc_test,labels=lables)
+
+##idea, stick w 2d, find correct number of clusters for each variable, then unique combinations later
+library(fpc)
+#http://www.statmethods.net/advstats/cluster.html
+
+clusterDF=as.data.frame(matrix(vector(), 147,9))
+species=names(classification)
+species=lapply(species,function(x)gsub("clustering.","",x))
+species=unlist(lapply(species,function(x)gsub("_HabitatMetrics.csv","",x)))
+
+row.names(clusterDF)=species
+colss=as.list(dimnames(empty3D)[[3]])
+colnames(clusterDF)=colss
+
+for(i in 1:9){
+variable=t(empty3D[,,i]) ## transpose, need species to be observations
+variable_clus=pamk(variable)
+classification=unlist(variable_clus[[1]][3])
+clusterDF[,i]=unname(variable_clus[[1]][3])
+}
+
+
+### look at clusterDF
+result <- PCA(clusterDF)
+
+fit=princomp(clusterDF,cor=FALSE)
+summary(fit)
+loadings(fit) # pc loadings
+plot(fit,type="lines") # scree plot
+fit$scores # the principal components
+biplot(fit) 
+
+
+#cluster the clusterDF
+all_vars=pamk(clusterDF)
+plot(clusterDF, col = all_vars$pamobject$clustering)
+
+library(cluster)
+r=pam(clusterDF,10)
+clusNUM=mean(silhouette(r)[, "sil_width"])
+r=pam(clusterDF,5)
+
+clusplot(pam(clusterDF,5))
+
+## silloutte plot: http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html
+plot(pam(clusterDF, 5))
+
+
+
+or(i in 1:length(dataframes)){
+  csv=read.csv(dataframes[i])
+  trimmed=csv[,c(5:44)]
+  empty2[i,1]=as.character(dataframes[i])
+  for(ii in 1:ncol(trimmed)){
+    trendseries=stlplus(trimmed[[ii]],n.p=12,s.window = "periodic")
+    trimmed$seasonal=trendseries$data$seasonal
+    model=lm(seasonal ~ TemporalOrder,
+
