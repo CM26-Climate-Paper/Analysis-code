@@ -25,7 +25,8 @@ part_dir="/Volumes/SeaGate/ClimatePaperCM2.6/species_models_partial"
 ### species variable accociated records are "/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/species"
 spp_dir="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/species"
 
-species=c("d193","d171","d24","bp15","d103","d106","d73","d74","e301",'bp502','d141',"d143","p135","bp131") ## subset of commercial species
+#species=c("d193","d171","d24","bp15","d103","d106","d73","d74","e301",'bp502','d141',"d143","p135","bp131") ## subset of commercial species (June 26th subset)
+species=c("d84","d631","p121","bp32","d654","d147","e401","d139") ## Jenn's additional species (July 3rd, 2017)
 
 ### read in species csv
 for(sp in species){
@@ -45,6 +46,8 @@ for (spp in species){
   print(paste("Finished ",spp,sep=""))
 }
 ##########################
+
+##########################--------only run this once--------##########################
 
 ##########################2. create projection surfaces (20-40,40-60,60-80)
 ###raw deltas: "/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/CM2.6/rasters_point08deg"
@@ -141,7 +144,7 @@ for(n in names(tmp.df02)[961:963]){
 
 ##i went through and removed their date-specific names
 ##and moved them to project_20y_avs/deltas
-################
+################a
 
 ################ 3. find names for projection surfaces, based on average temperature delta
 av20_40=raster(paste0(proj_dir,"/av20_40/st.tif"))
@@ -151,7 +154,7 @@ av60_80=raster(paste0(proj_dir,"/av60_80/st.tif"))
 z20_40=zonal(av20_40,study_area,fun='mean') ################ 0.9532168 (0.95)  # these are suface temperature deltas
 z40_60=zonal(av40_60,study_area,fun='mean') ################ 2.413975 (2.41)
 z60_80=zonal(av60_80,study_area,fun='mean') ################ 3.048009 (3.05)
-################ 
+################a
 
 ################ 4. add newly created deltas to historical rasters
 ### a. average contemporary rasters across months to make one for each variable
@@ -207,10 +210,13 @@ for(year in years){
     
   }
 }
-################ 
+################a 
+
+##########################--------end only run this once--------##########################
 
 ################5. project for each species
-species=c("d193","d171","d24","bp15","d103","d106","d73","d74","e301",'bp502','d141',"d143","p135","bp131") ## subset of commercial species
+#species=c("d193","d171","d24","bp15","d103","d106","d73","d74","e301",'bp502','d141',"d143","p135","bp131") ## subset of commercial species
+species=c("d84","d631","p121","bp32","d654","d147","e401","d139") ## Jenn's additional species (July 3rd, 2017)
 proj_full="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs/species_projections_full"
 proj_partial="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs/species_projections_partial"
 model_full="/Volumes/SeaGate/ClimatePaperCM2.6/species_models"
@@ -359,6 +365,30 @@ make_png=function(r,year,species,model_type){ ### does what it says
     common_name="butterfish"
   }
   
+  if(species=="d84"){
+    common_name="cusk"
+  }
+  if(species=="d631"){
+    common_name="sheepshead"
+  }
+  if(species=="p121"){
+    common_name="Atlantic mackerel"
+  }
+  if(species=="bp32"){
+    common_name="Atlantic herring"
+  }
+  if(species=="d654"){
+    common_name="red drum"
+  }
+  if(species=="d147"){
+    common_name="black drum"
+  }
+  if(species=="e401"){
+    common_name="sea scallop"
+  }
+  if(species=="d139"){
+    common_name="striped bass"
+  }
   
   mtext(paste0("Habitat suitability for ",common_name,". ",year2,". Model type = ",model_type), side=1, line=2.5)
   
