@@ -15,6 +15,7 @@ library(base)
 library(plyr)
 library(biomod2)
 library(maps)
+library(tidyverse)
 ##########################
 
 ##########################1. build two models (temp and all_vars) for each species, save as rds
@@ -26,7 +27,11 @@ part_dir="/Volumes/SeaGate/ClimatePaperCM2.6/species_models_partial"
 spp_dir="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/species"
 
 #species=c("d193","d171","d24","bp15","d103","d106","d73","d74","e301",'bp502','d141',"d143","p135","bp131") ## subset of commercial species (June 26th subset)
-species=c("d84","d631","p121","bp32","d654","d147","e401","d139") ## Jenn's additional species (July 3rd, 2017)
+#species=c("d84","d631","p121","bp32","d654","d147","e401","d139") ## Jenn's additional species (July 3rd, 2017)
+###### 09.12.17 grabbing unmodeled species #####
+fullsp=list.files(spp_dir)%>%lapply(.,function(x)gsub(".csv","",x))%>%unlist()
+modeledsp=list.files(part_dir)%>%lapply(.,function(x)gsub(".rds","",x))%>%unlist()
+species=fullsp[!fullsp %in% modeledsp]%>%unlist()
 
 ### read in species csv
 for(sp in species){
@@ -215,8 +220,11 @@ for(year in years){
 ##########################--------end only run this once--------##########################
 
 ################5. project for each species
+rds_full="/Volumes/SeaGate/ClimatePaperCM2.6/species_models"
+rds_partial="/Volumes/SeaGate/ClimatePaperCM2.6/species_models_partial"
 #species=c("d193","d171","d24","bp15","d103","d106","d73","d74","e301",'bp502','d141',"d143","p135","bp131") ## subset of commercial species
-species=c("d84","d631","p121","bp32","d654","d147","e401","d139") ## Jenn's additional species (July 3rd, 2017)
+#species=c("d84","d631","p121","bp32","d654","d147","e401","d139") ## Jenn's additional species (July 3rd, 2017)
+
 proj_full="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs/species_projections_full"
 proj_partial="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs/species_projections_partial"
 model_full="/Volumes/SeaGate/ClimatePaperCM2.6/species_models"
