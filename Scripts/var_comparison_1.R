@@ -16,6 +16,7 @@ library(plyr)
 library(biomod2)
 library(maps)
 library(tidyverse)
+library(raster)
 ##########################
 
 ##########################1. build two models (temp and all_vars) for each species, save as rds
@@ -32,6 +33,7 @@ spp_dir="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1
 fullsp=list.files(spp_dir)%>%lapply(.,function(x)gsub(".csv","",x))%>%unlist()
 modeledsp=list.files(part_dir)%>%lapply(.,function(x)gsub(".rds","",x))%>%unlist()
 species=fullsp[!fullsp %in% modeledsp]%>%unlist()
+#####
 
 ### read in species csv
 for(sp in species){
@@ -220,10 +222,13 @@ for(year in years){
 ##########################--------end only run this once--------##########################
 
 ################5. project for each species
-rds_full="/Volumes/SeaGate/ClimatePaperCM2.6/species_models"
-rds_partial="/Volumes/SeaGate/ClimatePaperCM2.6/species_models_partial"
 #species=c("d193","d171","d24","bp15","d103","d106","d73","d74","e301",'bp502','d141',"d143","p135","bp131") ## subset of commercial species
 #species=c("d84","d631","p121","bp32","d654","d147","e401","d139") ## Jenn's additional species (July 3rd, 2017)
+###### 09.12.17 grabbing unmodeled species #####
+fullsp=list.files(spp_dir)%>%lapply(.,function(x)gsub(".csv","",x))%>%unlist()
+modeledsp=list.files(part_dir)%>%lapply(.,function(x)gsub(".rds","",x))%>%unlist()
+species=fullsp[!fullsp %in% modeledsp]%>%unlist()
+#####
 
 proj_full="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs/species_projections_full"
 proj_partial="/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs/species_projections_partial"
@@ -317,86 +322,88 @@ make_png=function(r,year,species,model_type){ ### does what it says
   levs <- breaks[-1] - diff(breaks)/2
   image(x=levs, y=1, z=as.matrix(levs), col=pal(ncolors), breaks=breaks, ylab="", xlab="", yaxt="n")
   
-  if(species=="d193"){
-    common_name="ocean pout"
-  }
+  # if(species=="d193"){
+  #   common_name="ocean pout"
+  # }
+  # 
+  # if(species=="d171"){
+  #   common_name="northern sea robin"
+  # }
+  # 
+  # if(species=="d24"){
+  #   common_name="clearnose skate"
+  # }
+  # 
+  # if(species=="bp15"){
+  #   common_name="spiny dogfish"
+  # }
+  # 
+  # if(species=="d103"){
+  #   common_name="summer flounder"
+  # }
+  # 
+  # if(species=="d106"){
+  #   common_name="winter flounder"
+  # }
+  # 
+  # if(species=="d73"){
+  #   common_name="atlantic cod"
+  # }
+  # 
+  # if(species=="d74"){
+  #   common_name="haddock"
+  # }
+  # 
+  # if(species=="e301"){
+  #   common_name="american lobster"
+  # }
+  # 
+  # if(species=="bp502"){
+  #   common_name="longfin squid"
+  # }
+  # 
+  # if(species=="d141"){
+  #   common_name="black sea bass"
+  # }
+  # 
+  # if(species=="d143"){
+  #   common_name="scup"
+  # }
+  # 
+  # if(species=="p135"){
+  #   common_name="bluefish"
+  # }
+  # 
+  # if(species=="bp131"){
+  #   common_name="butterfish"
+  # }
+  # 
+  # if(species=="d84"){
+  #   common_name="cusk"
+  # }
+  # if(species=="d631"){
+  #   common_name="sheepshead"
+  # }
+  # if(species=="p121"){
+  #   common_name="Atlantic mackerel"
+  # }
+  # if(species=="bp32"){
+  #   common_name="Atlantic herring"
+  # }
+  # if(species=="d654"){
+  #   common_name="red drum"
+  # }
+  # if(species=="d147"){
+  #   common_name="black drum"
+  # }
+  # if(species=="e401"){
+  #   common_name="sea scallop"
+  # }
+  # if(species=="d139"){
+  #   common_name="striped bass"
+  # }
   
-  if(species=="d171"){
-    common_name="northern sea robin"
-  }
-  
-  if(species=="d24"){
-    common_name="clearnose skate"
-  }
-  
-  if(species=="bp15"){
-    common_name="spiny dogfish"
-  }
-  
-  if(species=="d103"){
-    common_name="summer flounder"
-  }
-  
-  if(species=="d106"){
-    common_name="winter flounder"
-  }
-  
-  if(species=="d73"){
-    common_name="atlantic cod"
-  }
-  
-  if(species=="d74"){
-    common_name="haddock"
-  }
-  
-  if(species=="e301"){
-    common_name="american lobster"
-  }
-  
-  if(species=="bp502"){
-    common_name="longfin squid"
-  }
-  
-  if(species=="d141"){
-    common_name="black sea bass"
-  }
-  
-  if(species=="d143"){
-    common_name="scup"
-  }
-  
-  if(species=="p135"){
-    common_name="bluefish"
-  }
-  
-  if(species=="bp131"){
-    common_name="butterfish"
-  }
-  
-  if(species=="d84"){
-    common_name="cusk"
-  }
-  if(species=="d631"){
-    common_name="sheepshead"
-  }
-  if(species=="p121"){
-    common_name="Atlantic mackerel"
-  }
-  if(species=="bp32"){
-    common_name="Atlantic herring"
-  }
-  if(species=="d654"){
-    common_name="red drum"
-  }
-  if(species=="d147"){
-    common_name="black drum"
-  }
-  if(species=="e401"){
-    common_name="sea scallop"
-  }
-  if(species=="d139"){
-    common_name="striped bass"
-  }
+  common_name=species ### will need to remove this for paper to use real names
   
   mtext(paste0("Habitat suitability for ",common_name,". ",year2,". Model type = ",model_type), side=1, line=2.5)
   
