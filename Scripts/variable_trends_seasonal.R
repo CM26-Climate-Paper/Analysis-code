@@ -74,3 +74,60 @@ for(mas in master){
   sh=grep("sh",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(sh,paste0(contempDir_seaonal,"/contemp_",mas,"/sh.tif"),format="GTiff")
 }
 #########
+
+######### ----------------------------> find spatial averages for all rasters in contemp and project ####
+empty=data.frame(period=NA,season=NA,var=NA,s.mean=NA)
+contemp=list.files(contempDir_seaonal,full.names = T,recursive = T)
+proj=list.files("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs_seasonal/project",full.names = T,recursive = T)
+layersList=unlist(list(contemp,proj))
+
+a=grep("Rugosity",layersList)
+b=grep("Depth",layersList)
+remove=unlist(list(a,b))
+layersList=layersList[-remove] ### getting rid of depth and rugosity
+
+substrRight <- function(x, n){
+  substr(x, nchar(x)-n+1, nchar(x))
+}
+
+for(i in 1:length(layersList)){  ### extracting metrics for each layer and writing to empty
+a=strsplit(layersList[i],"/")
+var=gsub(".tif","",a[[1]][11])
+season=substrRight(a[[1]][10],3)
+period=substr(a[[1]][10],1,nchar(a[[1]][10])-4)
+s.mean=raster(layersList[i])%>%cellStats(.,stat=mean)
+
+empty[i,1]=period
+empty[i,2]=season
+empty[i,3]=var
+empty[i,4]=s.mean
+}
+
+##### cleaning up dataframe
+xLevels=c("contemp","av20_40", "av40_60","av60_80")
+empty$period=as.factor(empty$period)
+empty$season=as.factor(empty$season)
+empty$var=as.factor(empty$var)
+empty$period_ordered=factor(empty$period,levels=xLevels)
+write.csv(empty,"/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs_seasonal/data/means.csv") ## cleaning names by hand, quicker
+
+empty=read.csv("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs_seasonal/data/means.csv")
+period_Levels=c("Contemporary","+20-40 years", "+40-60 years","+60-80 years")
+season_Levels=c("Winter","Spring", "Summer","Fall")
+var_Levels=c("Surface temperature","Bottom temperature","Surface salinity","Bottom salinity","Sea height")
+
+empty$period_ordered=factor(empty$Period,levels=period_Levels)
+empty$season_ordered=factor(empty$season,levels=season_Levels)
+empty$var_ordered=factor(empty$var,levels=var_Levels)
+
+######### ----------------------------> plotting 4x5 grid, each is variable by season, x = period ####
+
+a=ggplot(empty,aes(period_ordered,s.mean,group=1))+geom_line()
+a+facet_grid(var_ordered~season_ordered,scales = "free_y")+theme(strip.text.y = element_text(size=5))+
+  theme(axis.text.x = element_text(hjust=1,vjust=1,angle = 45))+labs(x="Temporal period")+labs(y="Mean value")
+
+pdf("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs_seasonal/data/grid.pdf")
+  a=ggplot(empty,aes(period_ordered,s.mean,group=1))+geom_line()
+  a+facet_grid(var_ordered~season_ordered,scales = "free_y")+theme(strip.text.y = element_text(size=5))+
+    theme(axis.text.x = element_text(hjust=1,vjust=1,angle = 45))+labs(x="Temporal period")+labs(y="Mean value")
+dev.off()  
