@@ -9,6 +9,7 @@
 
 library(raster)
 library(tidyverse)
+library(maps)
 
 ## --> 1. Average surfaces in "/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_future"
 ############################## RUN THIS ONCE, CREATS NEW PROJECTION SURFACES
@@ -124,9 +125,10 @@ bs=grep("bs",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(bs,
 bt=grep("bt",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(bt,paste0(seasonalDir,"/",mas,"/bt.tif"),format="GTiff")
 st=grep("st",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(st,paste0(seasonalDir,"/",mas,"/st.tif"),format="GTiff")
 SS=grep("SS",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(SS,paste0(seasonalDir,"/",mas,"/SS.tif"),format="GTiff")
-sh=grep("sh",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(sh,paste0(seasonalDir,"/",mas,"/sh.tif"),format="GTiff")
+sh=grep("sh.tif",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(sh,paste0(seasonalDir,"/",mas,"/sh.tif"),format="GTiff",overwrite=T)
 }
 
+sh=grep("sh.tif",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(sh,paste0(seasonalDir,"/",mas,"/sh.tif"),format="GTiff")
 ##### ----------------------------> copying over the static bathymetric variables ####
 folders=list.files(seasonalDir,full.names = T)
 depth=paste0(monthlyDir,"/m01_2000/Depth.tif")
@@ -200,3 +202,134 @@ for(sp in species){
   }
 }
 
+make_png=function(r,year,species,model_type){ ### does what it says
+  
+    png(paste0("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs_seasonal/pngs/",species,"_",year,"_",model_type,".png"), width=7, height=5, units="in", res=400)
+  
+  par(ps=10) #settings before layout
+  layout(matrix(c(1,2), nrow=2, ncol=1, byrow=TRUE), heights=c(4,1), widths=7)
+  #layout.show(2) # run to see layout; comment out to prevent plotting during .pdf
+  par(cex=1) # layout has the tendency change par()$cex, so this step is important for control
+  
+  par(mar=c(4,4,1,1)) # I usually set my margins before each plot
+  #pal <- colorRampPalette(c("blue", "grey", "red"))
+  pal <- colorRampPalette(c("darkblue","blue", "cyan", "yellow", "red","dark red"))
+  #pal <- colorRampPalette(c("purple4", "white", "blue"))
+  ncolors <- 200
+  breaks <- seq(0,1,,ncolors+1)
+  image(r, col=pal(ncolors), breaks=breaks)
+  map("world", add=TRUE, lwd=2)
+  #contour(r, add=TRUE, col="black",levels=c(-.75,-.5,.5,.75))
+  box()
+  
+  par(mar=c(4,4,0,1)) # I usually set my margins before each plot
+  levs <- breaks[-1] - diff(breaks)/2
+  image(x=levs, y=1, z=as.matrix(levs), col=pal(ncolors), breaks=breaks, ylab="", xlab="", yaxt="n")
+  
+  # if(species=="d193"){
+  #   common_name="ocean pout"
+  # }
+  # 
+  # if(species=="d171"){
+  #   common_name="northern sea robin"
+  # }
+  # 
+  # if(species=="d24"){
+  #   common_name="clearnose skate"
+  # }
+  # 
+  # if(species=="bp15"){
+  #   common_name="spiny dogfish"
+  # }
+  # 
+  # if(species=="d103"){
+  #   common_name="summer flounder"
+  # }
+  # 
+  # if(species=="d106"){
+  #   common_name="winter flounder"
+  # }
+  # 
+  # if(species=="d73"){
+  #   common_name="atlantic cod"
+  # }
+  # 
+  # if(species=="d74"){
+  #   common_name="haddock"
+  # }
+  # 
+  # if(species=="e301"){
+  #   common_name="american lobster"
+  # }
+  # 
+  # if(species=="bp502"){
+  #   common_name="longfin squid"
+  # }
+  # 
+  # if(species=="d141"){
+  #   common_name="black sea bass"
+  # }
+  # 
+  # if(species=="d143"){
+  #   common_name="scup"
+  # }
+  # 
+  # if(species=="p135"){
+  #   common_name="bluefish"
+  # }
+  # 
+  # if(species=="bp131"){
+  #   common_name="butterfish"
+  # }
+  # 
+  # if(species=="d84"){
+  #   common_name="cusk"
+  # }
+  # if(species=="d631"){
+  #   common_name="sheepshead"
+  # }
+  # if(species=="p121"){
+  #   common_name="Atlantic mackerel"
+  # }
+  # if(species=="bp32"){
+  #   common_name="Atlantic herring"
+  # }
+  # if(species=="d654"){
+  #   common_name="red drum"
+  # }
+  # if(species=="d147"){
+  #   common_name="black drum"
+  # }
+  # if(species=="e401"){
+  #   common_name="sea scallop"
+  # }
+  # if(species=="d139"){
+  #   common_name="striped bass"
+  # }
+  
+  common_name=species ### will need to remove this for paper to use real names
+  
+  mtext(paste0("Habitat suitability for ",common_name,". ",year,". Model type = ",model_type), side=1, line=2.5)
+  
+  box()
+  
+  dev.off() # closes device
+}
+
+for(sp in species){
+  path=paste0(proj_full,"/",sp)
+  for(year in years){
+    ras=paste0(path,"/",sp,"_",year,".tif")
+    r=raster(ras)
+    make_png(r=r,year=year,species=sp,model_type = "full")
+  }
+}
+
+for(sp in species){
+  path=paste0(proj_partial,"/",sp)
+  for(year in years){
+    ras=paste0(path,"/",sp,"_",year,".tif")
+    r=raster(ras)
+    make_png(r=r,year=year,species=sp,model_type = "partial")
+  }
+}
