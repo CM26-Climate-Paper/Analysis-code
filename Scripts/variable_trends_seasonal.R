@@ -67,11 +67,11 @@ master=list()
 for(mas in master){
   print(mas)
   a=paste0(contempDir_seaonal,"/contemp_",mas);dir.create(a)
-  bs=grep("bs",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(bs,paste0(contempDir_seaonal,"/contemp_",mas,"/bs.tif"),format="GTiff")
-  bt=grep("bt",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(bt,paste0(contempDir_seaonal,"/contemp_",mas,"/bt.tif"),format="GTiff")
-  st=grep("st",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(st,paste0(contempDir_seaonal,"/contemp_",mas,"/st.tif"),format="GTiff")
-  SS=grep("SS",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(SS,paste0(contempDir_seaonal,"/contemp_",mas,"/SS.tif"),format="GTiff")
-  sh=grep("sh",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(sh,paste0(contempDir_seaonal,"/contemp_",mas,"/sh.tif"),format="GTiff")
+  bs=grep("bs",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(bs,paste0(contempDir_seaonal,"/contemp_",mas,"/bs.tif"),format="GTiff",overwrite=T)
+  bt=grep("bt",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(bt,paste0(contempDir_seaonal,"/contemp_",mas,"/bt.tif"),format="GTiff",overwrite=T)
+  st=grep("st",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(st,paste0(contempDir_seaonal,"/contemp_",mas,"/st.tif"),format="GTiff",overwrite=T)
+  SS=grep("SS",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(SS,paste0(contempDir_seaonal,"/contemp_",mas,"/SS.tif"),format="GTiff",overwrite=T)
+  sh=grep("sh.tif",get(mas),value = T)%>%stack(.)%>%calc(.,fun = mean);writeRaster(sh,paste0(contempDir_seaonal,"/contemp_",mas,"/sh.tif"),format="GTiff",overwrite=T)
 }
 #########
 
