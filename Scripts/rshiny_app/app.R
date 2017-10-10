@@ -10,6 +10,7 @@ library(leaflet)
 library(shinythemes)
 library(RColorBrewer)
 library(grDevices)
+library(rgdal)
 
 ###### 2. define global objects #####
 contemp_vars_dir="data/contemporary/"
@@ -87,12 +88,7 @@ server <- shinyServer(function(input, output) {
   ##### ----> collect reactive elements ####
   sp=reactive({species[species$name==input$common,]%>%.[1,5]})
   
-  ##### ----> SDM colors ####
-  # pal <- brewer.pal(11,"RdYlBu")
-  # vals <- NULL
-  # vals=c(0,1)
-  # palette2 <- colorNumeric(pal, vals,
-  #                          na.color = "transparent") 
+  options(shiny.sanitize.errors = F)
   
   output$full <- renderLeaflet({
     #### get time period ####
