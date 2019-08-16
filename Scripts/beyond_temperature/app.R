@@ -25,7 +25,7 @@ env_vars=c("Surface temperature","Bottom temperature","Surface salinity","Bottom
 
 ui <- dashboardPage(skin="black",
                     dashboardHeader(disable=T
-                      # title = tags$div(style="color:white","Projecting  marine  species  range  shifts  from  only  temperature  masks  climate  vulnerability"),
+                      # title = tags$div(style="color:white","Projecting  marine  species  range  shifts  from  only  temperature  can  mask  climate  vulnerability"),
                       # titleWidth = "100%"
                     ),
                     dashboardSidebar(
@@ -102,7 +102,7 @@ server <- shinyServer(function(input, output) {
   ####
   
   #### ----> colors ####
-  pal <- brewer.pal(11,"RdYlBu")
+  pal <- rev(brewer.pal(11,"RdYlBu"))
   vals <- NULL
   vals=c(0,1)
   palette2 <- colorNumeric(pal, vals,
@@ -114,7 +114,7 @@ server <- shinyServer(function(input, output) {
     display=raster(paste0("data/species_projections_full/",speciesID(),"/",speciesID(),timePeriodID(),".tif"))
     lmap <- leaflet()
     lmap <- addProviderTiles(lmap, "CartoDB.Positron",options = providerTileOptions(noWrap = TRUE))
-    lmap <-addRasterImage(lmap, projectRasterForLeaflet(display),colors=palette2)
+    lmap <-addRasterImage(lmap, projectRasterForLeaflet(display,method="bilinear"),colors=palette2)
     lmap <- addLegend(lmap, "bottomright", values = vals,pal=palette2,title = "Species habitat suitability")
     })
   
@@ -122,7 +122,7 @@ server <- shinyServer(function(input, output) {
     display=raster(paste0("data/species_projections_partial/",speciesID(),"/",speciesID(),timePeriodID(),".tif"))
     lmap <- leaflet()
     lmap <- addProviderTiles(lmap, "CartoDB.Positron",options = providerTileOptions(noWrap = TRUE))
-    lmap <-addRasterImage(lmap, projectRasterForLeaflet(display),colors=palette2)
+    lmap <-addRasterImage(lmap, projectRasterForLeaflet(display,method="bilinear"),colors=palette2)
     lmap <- addLegend(lmap, "bottomright", values = vals,pal=palette2,title = "Species habitat suitability")
   })
   
@@ -133,12 +133,12 @@ server <- shinyServer(function(input, output) {
     
     # ### adding legend
     if(variableID()=="st" || variableID()=="bt"){
-      vpal <- brewer.pal(11,"Spectral")
+      vpal <- rev(brewer.pal(11,"Spectral"))
       vvals <- NULL
       vvals=c(variable@data@min,variable@data@max)
       vpalette2 <- colorNumeric(vpal, vvals,
                                 na.color = "transparent")
-      lmap <-addRasterImage(lmap, projectRasterForLeaflet(variable),colors=vpalette2)
+      lmap <-addRasterImage(lmap, projectRasterForLeaflet(variable,method="bilinear"),colors=vpalette2)
       lmap <- addLegend(lmap, "bottomright", values = vvals,pal=vpalette2,title = "Temperature (°C)")
       lmap
     }
@@ -149,7 +149,7 @@ server <- shinyServer(function(input, output) {
       vvals=c(variable@data@min,variable@data@max)
       vpalette2 <- colorNumeric(vpal, vvals,
                                 na.color = "transparent")
-      lmap <-addRasterImage(lmap, projectRasterForLeaflet(variable),colors=vpalette2)
+      lmap <-addRasterImage(lmap, projectRasterForLeaflet(variable,method="bilinear"),colors=vpalette2)
       lmap <- addLegend(lmap, "bottomright", values = vvals,pal=vpalette2,title = "Salinity (PSU)")
       lmap
     }
@@ -160,7 +160,7 @@ server <- shinyServer(function(input, output) {
       vvals=c(variable@data@min,variable@data@max)
       vpalette2 <- colorNumeric(vpal, vvals,
                                 na.color = "transparent")
-      lmap <-addRasterImage(lmap, projectRasterForLeaflet(variable),colors=vpalette2)
+      lmap <-addRasterImage(lmap, projectRasterForLeaflet(variable,method="bilinear"),colors=vpalette2)
       lmap <- addLegend(lmap, "bottomright", values = vvals,pal=vpalette2,title = "Sea height (m)")
       lmap
     }
