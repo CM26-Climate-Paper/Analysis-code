@@ -1,4 +1,5 @@
 ############## --------------> checking why seasonal predictions are so different from annual
+library(lattice)
 
 #### reading in rasters
 setwd("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs_seasonal/contemporary")
@@ -38,6 +39,9 @@ library(reshape2)
 library(gridExtra)
 library(grid)
 library(rasterVis)
+library(maps)
+library(mapdata)
+library(maptools)
 
 ############# ----------------------> Contemporary, SST
 
@@ -135,11 +139,69 @@ for(i in 1:length(dates)){
   assign(name,b)
 }
 ########
+ext <- as.vector(extent(`st.tif`))
+boundaries <- map('worldHires', fill=TRUE,
+                  xlim=ext[1:2], ylim=ext[3:4],
+                  plot=FALSE)
+IDs <- sapply(strsplit(boundaries$names, ":"), function(x) x[1])
+bPols <- map2SpatialPolygons(boundaries, IDs=IDs,
+                             proj4string=CRS(projection(`st.tif`)))
 
-
-myTheme_temp=rasterTheme(region=brewer.pal('RdBu', n=11))
+myTheme_temp=rasterTheme(region=rev(brewer.pal('RdBu', n=11)))
 myTheme_salinity=rasterTheme(region=brewer.pal('PiYG', n=11))
 myTheme_sh=rasterTheme(region=brewer.pal('PRGn', n=11))
+
+my_at=seq(`st.tif`@data@min,`av60_80/st.tif`@data@max,by=1)
+my_at_bt=seq(`bt.tif`@data@min,`av60_80/bt.tif`@data@max,by=1)
+my_at_SS=seq(28,`av60_80/SS.tif`@data@max,by=1)
+my_at_bs=seq(28,`av60_80/bs.tif`@data@max,by=1)
+my_at_ssh=seq(`sh.tif`@data@min,`av60_80/sh.tif`@data@max,by=.02)
+
+######### all variables, 20 year averages ####
+png("/Volumes/SeaGate/ClimatePaperCM2.6/20 year averages.png",
+    width     = 12,
+    height    = 15,
+    units     = "in",
+    res       = 1200)
+a=levelplot(`st.tif`,main="SST, contemporary",par.settings=myTheme_temp,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at)+ layer(sp.polygons(bPols))
+b=levelplot(`av20_40/st.tif`,main="SST, Y20-40",par.settings=myTheme_temp,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at)+ layer(sp.polygons(bPols))
+bb=levelplot(`av40_60/st.tif`,main="SST, Y40-60",par.settings=myTheme_temp,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at)+ layer(sp.polygons(bPols))
+c=levelplot(`av60_80/st.tif`,main="SST, Y60-80",par.settings=myTheme_temp,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at)+ layer(sp.polygons(bPols))
+
+d=levelplot(`bt.tif`,main="BT, contemporary",par.settings=myTheme_temp,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_bt)+ layer(sp.polygons(bPols))
+e=levelplot(`av20_40/bt.tif`,main="BT, Y20-40",par.settings=myTheme_temp,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_bt)+ layer(sp.polygons(bPols))
+f=levelplot(`av40_60/bt.tif`,main="BT, Y40-60",par.settings=myTheme_temp,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_bt)+ layer(sp.polygons(bPols))
+g=levelplot(`av60_80/bt.tif`,main="BT, Y60-80",par.settings=myTheme_temp,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_bt)+ layer(sp.polygons(bPols))
+
+`SS.tif`[`SS.tif` < 28] <- NA
+`av20_40/SS.tif`[`av20_40/SS.tif` < 28] <- NA
+`av40_60/SS.tif`[`av40_60/SS.tif` < 28] <- NA
+`av60_80/SS.tif`[`av60_80/SS.tif` < 28] <- NA
+
+h=levelplot(`SS.tif`,main="SS, contemporary",par.settings=myTheme_salinity,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_SS)+ layer(sp.polygons(bPols))
+i=levelplot(`av20_40/SS.tif`,main="SS, Y20-40",par.settings=myTheme_salinity,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_SS)+ layer(sp.polygons(bPols))
+j=levelplot(`av40_60/SS.tif`,main="SS, Y40-60",par.settings=myTheme_salinity,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_SS)+ layer(sp.polygons(bPols))
+k=levelplot(`av60_80/SS.tif`,main="SS, Y60-80",par.settings=myTheme_salinity,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_SS)+ layer(sp.polygons(bPols))
+
+`bs.tif`[`bs.tif` < 28] <- NA
+`av20_40/bs.tif`[`av20_40/bs.tif` < 28] <- NA
+`av40_60/bs.tif`[`av40_60/bs.tif` < 28] <- NA
+`av60_80/bs.tif`[`av60_80/bs.tif` < 28] <- NA
+
+l=levelplot(`bs.tif`,main="BS, contemporary",par.settings=myTheme_salinity,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_bs)+ layer(sp.polygons(bPols))
+m=levelplot(`av20_40/bs.tif`,main="BS, Y20-40",par.settings=myTheme_salinity,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_bs)+ layer(sp.polygons(bPols))
+n=levelplot(`av40_60/bs.tif`,main="BS, Y40-60",par.settings=myTheme_salinity,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_bs)+ layer(sp.polygons(bPols))
+o=levelplot(`av60_80/bs.tif`,main="BS, Y60-80",par.settings=myTheme_salinity,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_bs)+ layer(sp.polygons(bPols))
+
+p=levelplot(`sh.tif`,main="SSH, contemporary",par.settings=myTheme_sh,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_ssh)+ layer(sp.polygons(bPols))
+q=levelplot(`av20_40/sh.tif`,main="SSH, Y20-40",par.settings=myTheme_sh,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_ssh)+ layer(sp.polygons(bPols))
+r=levelplot(`av40_60/sh.tif`,main="SSH, Y40-60",par.settings=myTheme_sh,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_ssh)+ layer(sp.polygons(bPols))
+s=levelplot(`av60_80/sh.tif`,main="SSH, Y60-80",par.settings=myTheme_sh,between = list(x=0.1, y=0.1),margin=F,colorkey=T,at=my_at_ssh)+ layer(sp.polygons(bPols))
+
+
+grid.arrange(a,b,bb,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,ncol=4,widths=c(4,4,4,4),heights=c(5,5,5,5,5))
+dev.off()
+
 
 ######### SST ####
 png("/Volumes/SDM /Lacie backup October 2016/Lacie share/Climate_paper/GAM_1/project_20y_avs_seasonal/checking_errors/st.png",
