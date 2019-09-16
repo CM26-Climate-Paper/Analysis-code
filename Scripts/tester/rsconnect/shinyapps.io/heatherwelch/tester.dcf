@@ -1,0 +1,10 @@
+name: tester
+title:
+username:
+account: heatherwelch
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1182614
+bundleId: 2407674
+url: https://heatherwelch.shinyapps.io/tester/
+when: 1568246746.79778

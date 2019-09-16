@@ -1,0 +1,135 @@
+,X,Common.Name,Scientific.Name,Species,Total_Records_Accross_Months,Months_With_Records,Reason_To_Reject,Use.for.Model.Fitting,name
+179,309,acadian redfish,sebastes fasciatus ,d155,1586,7,,Maybe,acadian redfish - sebastes fasciatus 
+43,249,alewife,alosa pseudoharengus,p33,5467,12,,Yes,alewife - alosa pseudoharengus
+138,78,alligatorfish,aspidophoroides monopterygius,d165,423,10,,Maybe,alligatorfish - aspidophoroides monopterygius
+131,116,american eel,anguilla rostrata,d384,68,11,,Maybe,american eel - anguilla rostrata
+2,186,american lobster,homarus americanus,e301,59625,12,,Yes,american lobster - homarus americanus
+8,46,american plaice flounder,hippoglossoides platessoides,d102,36191,12,,Yes,american plaice flounder - hippoglossoides platessoides
+47,251,american shad,alosa sapidissima,p35,3970,12,,Yes,american shad - alosa sapidissima
+59,82,armored sea robin,peristedion miniatum,d173,1697,12,,Yes,armored sea robin - peristedion miniatum
+118,75,atl angel shark,squatina dumerili,d16,759,11,,Maybe,atl angel shark - squatina dumerili
+123,58,atl cutlassfish,trichiurus lepturus,d126,301,11,,Maybe,atl cutlassfish - trichiurus lepturus
+11,28,atl long-fin squid,loligo pealei,bp503,32707,12,,Yes,atl long-fin squid - loligo pealei
+171,96,atlantic batfish,dibranchus atlanticus,d199,68,8,,Maybe,atlantic batfish - dibranchus atlanticus
+174,241,atlantic bonito,sarda sarda,p123,43,8,,Maybe,atlantic bonito - sarda sarda
+4,142,atlantic cod,gadus morhua,d73,42274,12,,Yes,atlantic cod - gadus morhua
+53,62,atlantic croaker,micropogonias undulatus,d136,2682,12,,Yes,atlantic croaker - micropogonias undulatus
+81,44,atlantic hagfish,myxine glutinosa,d1,488,12,,Yes,atlantic hagfish - myxine glutinosa
+58,45,atlantic halibut,hippoglossus hippoglossus,d101,2022,12,,Yes,atlantic halibut - hippoglossus hippoglossus
+38,25,atlantic herring,clupea harengus,bp32,8133,12,,Yes,atlantic herring - clupea harengus
+42,240,atlantic mackerel,scomber scombrus,p121,5843,12,,Yes,atlantic mackerel - scomber scombrus
+71,252,atlantic menhaden,brevoortia tyrannus,p36,902,12,,Yes,atlantic menhaden - brevoortia tyrannus
+151,23,atlantic moonfish,selene setapinnis,bp132,409,9,,Maybe,atlantic moonfish - selene setapinnis
+139,239,atlantic silverside,menidia menidia,p113,380,10,,Maybe,atlantic silverside - menidia menidia
+82,152,atlantic sturgeon,acipenser oxyrhynchus,d1013,250,12,,Yes,atlantic sturgeon - acipenser oxyrhynchus
+54,92,atlantic wolffish,anarhichas lupus,d192,2468,12,,Yes,atlantic wolffish - anarhichas lupus
+164,290,barndoor skate,dipturus laevis ,d22,1332,8,,Maybe,barndoor skate - dipturus laevis 
+29,172,barndoor skate,raja laevis,d1032,13297,12,,Yes,barndoor skate - raja laevis
+85,257,basking shark,cetorhinus maximus,p6,126,12,,Yes,basking shark - cetorhinus maximus
+166,254,bay anchovy,anchoa mitchilli,p43,524,8,,Maybe,bay anchovy - anchoa mitchilli
+73,105,beardfish,polymixia lowei,d263,752,12,,Yes,beardfish - polymixia lowei
+172,97,bigeye scad,selar crumenophthalmus,d209,67,8,,Maybe,bigeye scad - selar crumenophthalmus
+64,140,black (hake whiting,merluccius albidus,d69,1125,12,,Yes,black (hake whiting) - merluccius albidus
+61,73,black belly rosefish,helicolenus dactylopterus,d156,1425,12,,Yes,black belly rosefish - helicolenus dactylopterus
+127,70,black drum,pogonias cromis,d147,129,11,,Maybe,black drum - pogonias cromis
+21,65,black sea bass,centropristis striata,d141,17778,12,,Yes,black sea bass - centropristis striata
+67,191,blue crab,callinectes sapidus,e314,1028,12,,Yes,blue crab - callinectes sapidus
+186,59,blue runner,caranx crysos,d129,243,7,,Maybe,blue runner - caranx crysos
+50,250,blueback herring,alosa aestivalis,p34,3109,12,,Yes,blueback herring - alosa aestivalis
+34,243,bluefish,pomatomus saltatrix,p135,9800,12,,Yes,bluefish - pomatomus saltatrix
+76,127,blueline tilefish,caulolatilus microps,d621,569,12,,Yes,blueline tilefish - caulolatilus microps
+121,86,bluntnose stingray,dasyatis say,d18,395,11,,Maybe,bluntnose stingray - dasyatis say
+165,396,bobtail squid ,sepiola atlantica,bp506,758,8,,Maybe,bobtail squid  - sepiola atlantica
+180,353,bristled longbeak,dichelopandalus leptocerus ,d296,1081,7,,Maybe,bristled longbeak - dichelopandalus leptocerus 
+41,55,buckler (john) dory,zenopsis conchifera,d112,5922,12,,Yes,buckler (john) dory - zenopsis conchifera
+117,90,bullnose ray,myliobatis freminvillei,d19,997,11,,Maybe,bullnose ray - myliobatis freminvillei
+15,22,butterfish,peprilus triacanthus,bp131,24380,12,,Yes,butterfish - peprilus triacanthus
+46,64,chain dogfish,scyliorhinus retifer ,d14,4126,12,,Yes,chain dogfish - scyliorhinus retifer 
+150,201,channeled (smooth) whelk,busycon canaliculatium,d1042,543,9,,Maybe,channeled (smooth) whelk - busycon canaliculatium
+135,242,chub mackerel,scomber japonicus,p124,582,10,,Maybe,chub mackerel - scomber japonicus
+33,102,clearnose skate,raja eglanteria,d24,9830,12,,Yes,clearnose skate - raja eglanteria
+173,123,cobia,rachycentron canadum,d563,55,8,,Maybe,cobia - rachycentron canadum
+128,231,common (old saddleback) dolphin,delphinus delphis,m1064,110,11,,Maybe,common (old saddleback) dolphin - delphinus delphis
+68,128,conger eel,conger oceanicus,d63,1028,12,,Yes,conger eel - conger oceanicus
+141,39,cownose ray,rhinoptera bonasus,bp270,364,10,,Maybe,cownose ray - rhinoptera bonasus
+77,83,cunner (yellow perch),tautogolabrus adspersus,d176,533,12,,Yes,cunner (yellow perch) - tautogolabrus adspersus
+65,182,cusk,brosme brosme,d84,1052,12,,Yes,cusk - brosme brosme
+70,74,deepbody boarfish,antigonia capros,d158,905,12,,Yes,deepbody boarfish - antigonia capros
+44,188,deepsea red crab,chaceon quinquedens,e310,5171,12,,Yes,deepsea red crab - chaceon quinquedens
+182,323,fawn cusk-eel,lepophidium profundorum ,d194,723,7,,Maybe,fawn cusk-eel - lepophidium profundorum 
+69,181,fourbeard rockling,enchelyopus cimbrius,d83,1021,12,,Yes,fourbeard rockling - enchelyopus cimbrius
+16,48,fourspot flounder,paralichthys oblongus,d104,24301,12,,Yes,fourspot flounder - paralichthys oblongus
+60,72,great northern tilefish,lopholatilus chamaeleonticeps,d151,1503,12,,Yes,great northern tilefish - lopholatilus chamaeleonticeps
+84,38,greenland halibut,reinhardtius hippoglossoides,d99,202,12,,Yes,greenland halibut - reinhardtius hippoglossoides
+57,53,gulfstream flounder,citharichthys arctifrons,d109,2229,12,,Yes,gulfstream flounder - citharichthys arctifrons
+13,143,haddock,melanogrammus aeglefinus,d74,30116,12,,Yes,haddock - melanogrammus aeglefinus
+79,253,hickory shad,alosa mediocris,p37,494,12,,Yes,hickory shad - alosa mediocris
+40,192,horseshoe crab,limulus polyphemus,e318,6721,12,,Yes,horseshoe crab - limulus polyphemus
+18,189,jonah crab,cancer borealis,e312,22323,12,,Yes,jonah crab - cancer borealis
+149,202,knobbed whelk,busycon carica,d1043,656,9,,Maybe,knobbed whelk - busycon carica
+51,193,lady crab,ovalipes ocellatus,e322,2966,12,,Yes,lady crab - ovalipes ocellatus
+9,104,little skate,leucoraja erinacea ,d26,36153,12,,Yes,little skate - leucoraja erinacea 
+126,237,loggerhead turtle,caretta caretta,m950,167,11,,Maybe,loggerhead turtle - caretta caretta
+86,179,longfin hake,urophycis chesteri,d1039,97,12,,Yes,longfin hake - urophycis chesteri
+26,76,longhorn sculpin,myoxocephalus octodecimspinosus,d163,14276,12,,Yes,longhorn sculpin - myoxocephalus octodecimspinosus
+122,54,longspine snipefish,macroramphosus scolopax,d111,387,11,,Maybe,longspine snipefish - macroramphosus scolopax
+55,79,lumpfish,cyclopterus lumpus,d168,2298,12,,Yes,lumpfish - cyclopterus lumpus
+1,95,monkfish (goosefish),lophius americanus,d197,70822,12,,Yes,monkfish (goosefish) - lophius americanus
+72,69,northern kingfish,menticirrhus saxatilis,d146,783,12,,Yes,northern kingfish - menticirrhus saxatilis
+74,94,northern puffer,sphoeroides maculatus,d196,671,12,,Yes,northern puffer - sphoeroides maculatus
+183,316,northern sand lance,ammodytes dubius ,d181,613,7,,Maybe,northern sand lance - ammodytes dubius 
+31,80,northern sea robin,prionotus carolinus,d171,11496,12,,Yes,northern sea robin - prionotus carolinus
+49,194,northern stone crab,lithodes maja,e324,3308,12,,Yes,northern stone crab - lithodes maja
+83,217,ocean (black clam) quahog,artica islandica,i409,227,12,,Yes,ocean (black clam) quahog - artica islandica
+39,93,ocean pout,zoarces americanus,d193,7962,12,,Yes,ocean pout - zoarces americanus
+62,187,pandalid (northern) shrimp,pandalus borealis,e306,1365,12,,Yes,pandalid (northern) shrimp - pandalus borealis
+167,130,pinfish,lagondon rhomboides,d640,192,8,,Maybe,pinfish - lagondon rhomboides
+20,146,pollock,pollachius virens,d75,18041,12,,Yes,pollock - pollachius virens
+87,269,porbeagle (mackerel shark) shark,lamna nasus,p353,78,12,,Yes,porbeagle (mackerel shark) shark - lamna nasus
+24,148,red (ling) hake,urophycis chuss,d77,15821,12,,Yes,red (ling) hake - urophycis chuss
+170,136,red drum,sciaenops ocellatus,d654,71,8,,Maybe,red drum - sciaenops ocellatus
+35,190,rock crab,cancer irroratus,e313,9795,12,,Yes,rock crab - cancer irroratus
+52,103,rosette skate,raja garmani,d25,2944,12,,Yes,rosette skate - raja garmani
+120,99,rough scad,trachurus lathami,d212,690,11,,Maybe,rough scad - trachurus lathami
+134,117,roughtail stingray,dasyatis centroura,d4,712,10,,Maybe,roughtail stingray - dasyatis centroura
+17,52,sand dab (windowpane) flounder,scophtalmus aquosus,d108,23945,12,,Yes,sand dab (windowpane) flounder - scophtalmus aquosus
+78,206,sand dollar,echinarachnius parma,d1047,507,12,,Yes,sand dollar - echinarachnius parma
+130,168,sand tiger shark,odontaspis taurus,d1029,95,11,,Maybe,sand tiger shark - odontaspis taurus
+140,30,sandbar (brown shark) shark,carcharhinus plumbeus,bp9,376,10,,Maybe,sandbar (brown shark) shark - carcharhinus plumbeus
+19,67,scup,stenotomus chrysops,d143,20246,12,,Yes,scup - stenotomus chrysops
+23,77,sea raven,hemitripterus americanus,d164,16132,12,,Yes,sea raven - hemitripterus americanus
+27,197,sea scallop,placopecten sp,e401,14184,12,,Yes,sea scallop - placopecten sp
+80,211,sea urchin,strongylocentrotus droebachiensis,d1052,493,12,,Yes,sea urchin - strongylocentrotus droebachiensis
+168,129,sheepshead,archosargus probatocephalus,d631,155,8,,Maybe,sheepshead - archosargus probatocephalus
+25,27,short-fin squid,illex illecebrosus,bp502,15489,12,,Yes,short-fin squid - illex illecebrosus
+184,334,shortnose greeneye,chlorophthalmus agassizi ,d232,336,7,,Maybe,shortnose greeneye - chlorophthalmus agassizi 
+10,141,silver (whiting) hake,merluccius bilinearis,d72,33950,12,,Yes,silver (whiting) hake - merluccius bilinearis
+124,114,smooth butterfly ray,gymnura micrura,d376,263,11,,Maybe,smooth butterfly ray - gymnura micrura
+36,60,smooth dogfish,mustelus canis,d13,9751,12,,Yes,smooth dogfish - mustelus canis
+32,174,smooth skate,raja senta,d27,10985,12,,Yes,smooth skate - raja senta
+66,195,snow crab,chionoecetes opilio,e325,1046,12,,Yes,snow crab - chionoecetes opilio
+119,134,southern kingfish,menticirrhus americanus,d652,703,11,,Maybe,southern kingfish - menticirrhus americanus
+169,137,spadefish,chaetodipterus faber,d659,94,8,,Maybe,spadefish - chaetodipterus faber
+142,207,spider crab,libinia emarginata,d1048,309,10,,Maybe,spider crab - libinia emarginata
+137,113,spiny butterfly ray,gymnura altavela,d375,475,10,,Maybe,spiny butterfly ray - gymnura altavela
+6,24,spiny dogfish,squalus acanthias,bp15,42067,12,,Yes,spiny dogfish - squalus acanthias
+181,400,spoonarm octopus,bathypolypus arcticus ,bp512,1065,7,,Maybe,spoonarm octopus - bathypolypus arcticus 
+116,71,spot,leiostomus xanthurus,d149,1135,11,,Maybe,spot - leiostomus xanthurus
+28,149,spotted hake,urophycis regia,d78,13834,12,,Yes,spotted hake - urophycis regia
+45,63,striped bass,morone saxatilis,d139,4191,12,,Yes,striped bass - morone saxatilis
+37,81,striped sea robin,prionotus evolans,d172,8783,12,,Yes,striped sea robin - prionotus evolans
+3,47,summer (fluke) flounder,paralichthys dentatus,d103,44024,12,,Yes,summer (fluke) flounder - paralichthys dentatus
+125,199,surf clam,spisula solidissima,e403,223,11,,Maybe,surf clam - spisula solidissima
+136,280,swordfish,xiphias gladius,p700,513,10,,Maybe,swordfish - xiphias gladius
+63,84,tautog (blackfish),tautoga onitis,d177,1291,12,,Yes,tautog (blackfish) - tautoga onitis
+30,173,thorny skate,raja radiata,d28,13262,12,,Yes,thorny skate - raja radiata
+129,284,thresher shark,alopias vulpinus,p925,101,11,,Maybe,thresher shark - alopias vulpinus
+56,98,torpedo ray,torpedo nobiliana,d21,2283,12,,Yes,torpedo ray - torpedo nobiliana
+48,68,weakfish (squeteague sea trout),cynoscion regalis,d145,3311,12,,Yes,weakfish (squeteague sea trout) - cynoscion regalis
+185,333,weitzmans pearlsides,maurolicus weitzmani ,p229,283,7,,Maybe,weitzmans pearlsides - maurolicus weitzmani 
+22,147,white hake,urophycis tenuis,d76,16437,12,,Yes,white hake - urophycis tenuis
+12,50,winter (blackback) flounder,pleuronectes americanus,d106,30777,12,,Yes,winter (blackback) flounder - pleuronectes americanus
+5,101,winter skate,raja ocellata,d23,42189,12,,Yes,winter skate - raja ocellata
+7,51,witch (grey sole) flounder,glyptocephalus cynoglossus,d107,39132,12,,Yes,witch (grey sole) flounder - glyptocephalus cynoglossus
+75,91,wrymouth,crytacanthodes maculatus,d191,600,12,,Yes,wrymouth - crytacanthodes maculatus
+14,49,yellowtail flounder,pleuronectes ferrugineus,d105,26729,12,,Yes,yellowtail flounder - pleuronectes ferrugineus
